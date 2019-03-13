@@ -1,61 +1,66 @@
 import 'package:flutter/material.dart';
-import 'package:english_words/english_words.dart';
 
-void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+
+void main() {
+  runApp(new MaterialApp(
+    home: new MyStatelessWidget(),
+  ));
+}
+
+
+
+class MyStatelessWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Welcome to Flutters',
-      home: Scaffold(
-        body: Center(
-          child: RandomWords(),
+    return new Scaffold(
+      appBar: new AppBar(title: new Text("Hello")),
+      body: new Container(
+        padding: new EdgeInsets.all(20.0),
+        child: new Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            new MyCard(
+            title: new Text("Записать видео", style: new TextStyle(fontSize: 25.0)),
+            icon: new Icon(Icons.fiber_manual_record, size: 40.0, color: Colors.redAccent)),
+            new MyCard(
+              title: new Text("Просмотреть архив", style: new TextStyle(fontSize: 25)),
+              icon: new Icon(Icons.archive, size: 40.0, color: Colors.greenAccent),
+            ),
+            new MyCard(
+              icon: new Icon(Icons.person, size: 40.0, color: Colors.blueAccent),
+              title: new Text("О программе", style: new TextStyle(fontSize: 25)),
+            )
+          ],
+        ),
+      )
+    );
+  }
+}
+
+
+class MyCard extends StatelessWidget {
+  MyCard({this.title, this.icon});
+
+  final Widget title;
+  final Widget icon;
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return new Container(
+      padding: new EdgeInsets.only(bottom: 10.0),
+      child: new Card(
+        child: new Container(
+          padding: new EdgeInsets.all(15.0),
+          child: new Column(
+            children: <Widget>[
+             this.title,
+             this.icon
+            ],
+          )
         ),
       ),
     );
   }
-}
-
-class RandomWordsState extends State<RandomWords> {
-  // TODO Add build() method
-  final _suggestions = <WordPair>[];
-  final _biggerFont = const TextStyle(fontSize: 18.0);
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Startup Name Generator'),
-      ),
-      body: _buildSuggestions(),
-    );
-  }
-
-  Widget _buildSuggestions() {
-    return ListView.builder(
-        padding: const EdgeInsets.all(16.0),
-        itemBuilder: /*1*/ (context, i) {
-          if (i.isOdd) return Divider(); /*2*/
-
-          final index = i ~/ 2; /*3*/
-          if (index >= _suggestions.length) {
-            _suggestions.addAll(generateWordPairs().take(10)); /*4*/
-          }
-          return _buildRow(_suggestions[index]);
-        });
-  }
-
-  Widget _buildRow(WordPair pair) {
-    return ListTile(
-      title: Text(
-        pair.asPascalCase,
-        style: _biggerFont,
-      ),
-    );
-  }
-}
-
-class RandomWords extends StatefulWidget {
-  @override
-  RandomWordsState createState() => new RandomWordsState();
 }
